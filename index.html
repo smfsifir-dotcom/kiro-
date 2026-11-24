@@ -1,0 +1,551 @@
+<!DOCTYPE html>
+<html lang="tr">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no, viewport-fit=cover" />
+  <meta name="theme-color" content="#0B0D12" />
+  <title>KİRO — Bilimsel El Analizi V4.0</title>
+  <link rel="manifest" href="manifest.json" />
+  <link rel="stylesheet" href="css/style.css" />
+</head>
+<body>
+  <div class="app-shell" id="appShell">
+    <!-- Üst Gezinme Çubuğu -->
+    <header class="topbar">
+      <button class="icon-btn" id="btnBack" aria-label="Geri" hidden>
+        <svg viewBox="0 0 24 24" width="20" height="20" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+          <path d="M15 18l-6-6 6-6"/>
+        </svg>
+      </button>
+
+      <div class="topbar-center">
+        <span class="brand-mini" id="topbarTitle">KİRO</span>
+        <div class="progress-track" id="progressTrack" hidden>
+          <div class="progress-fill" id="progressFill"></div>
+        </div>
+      </div>
+
+      <button class="icon-btn gold-spark" id="btnMenu" aria-label="Menü ve Kurucu İthafı" title="Menü">
+        ✦
+      </button>
+    </header>
+
+    <!-- Ana Tek-Ekran Sahnesi (1 Ekran = 1 İşlem) -->
+    <main class="stage" id="stage">
+
+      <!-- EKRAN 1: KARŞILAMA -->
+      <section class="screen active" id="screen-welcome">
+        <div class="screen-body center-stack">
+          <div class="emblem" aria-hidden="true">
+            <svg viewBox="0 0 120 120" width="92" height="92" fill="none">
+              <circle cx="60" cy="60" r="54" stroke="url(#goldGrad)" stroke-width="0.9" stroke-dasharray="3 5" opacity="0.65"/>
+              <circle cx="60" cy="60" r="44" stroke="url(#goldGrad)" stroke-width="1" opacity="0.35"/>
+              <path d="M44 82 C40 72, 40 58, 43 44 C44 40, 48 40, 48 45 L48 56 L51 35 C52 31, 56 31, 56 36 L56 54 L61 32 C62 28, 66 28, 66 33 L65 55 L71 38 C72 34, 76 35, 75 40 L72 60 C77 56, 82 54, 84 57 C85 59, 80 68, 74 78 C70 84, 65 88, 58 88 C51 88, 46 85, 44 82 Z" stroke="url(#goldGrad)" stroke-width="1.5" stroke-linejoin="round"/>
+              <path d="M47 64 Q58 61 70 65" stroke="#D4AF6A" stroke-width="1.2" stroke-linecap="round" opacity="0.9"/>
+              <path d="M46 70 Q57 70 66 75" stroke="#D4AF6A" stroke-width="1.1" stroke-linecap="round" opacity="0.75"/>
+              <path d="M51 64 Q55 75 52 84" stroke="#D4AF6A" stroke-width="1.1" stroke-linecap="round" opacity="0.75"/>
+              <defs>
+                <linearGradient id="goldGrad" x1="16" y1="16" x2="104" y2="104" gradientUnits="userSpaceOnUse">
+                  <stop stop-color="#F0D79A"/>
+                  <stop offset="1" stop-color="#B08943"/>
+                </linearGradient>
+              </defs>
+            </svg>
+          </div>
+
+          <div class="hero-copy">
+            <h1 class="brand-title">KİRO</h1>
+            <p class="brand-sub">Kanıta Dayalı El Analizi · V4.0</p>
+            <p class="hero-desc">İki elinin anatomisini, çoklu çizgi kavislerini ve kişisel imzanı tek bir sade deneyimde keşfet.</p>
+          </div>
+
+          <div class="privacy-pill">
+            <svg viewBox="0 0 24 24" width="15" height="15" fill="none" stroke="currentColor" stroke-width="1.9" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M12 22s8-4 8-10V5l-8-3-8 3v7c0 6 8 10 8 10z"/>
+              <path d="M9 12l2 2 4-4"/>
+            </svg>
+            <span>Fotoğrafların ve bilgilerin cihazından asla çıkmaz; tüm analiz telefonunda çalışır.</span>
+          </div>
+        </div>
+
+        <div class="screen-footer">
+          <button class="btn btn-primary" id="btnStart">Analize Başla</button>
+          <button class="btn btn-ghost" id="btnDemo">Demo Elleriyle 7 Perdeyi Gör</button>
+        </div>
+      </section>
+
+      <!-- EKRAN 2: HUKUK, 18+ YAŞ VE AÇIK RIZA KAPISI -->
+      <section class="screen" id="screen-legal">
+        <div class="screen-body" id="legalMount"></div>
+        <div class="screen-footer">
+          <button class="btn btn-primary" id="btnLegalContinue" disabled>Onayla ve Devam Et</button>
+        </div>
+      </section>
+
+      <!-- EKRAN 3: KİŞİSEL KOMBO PROFİLİ -->
+      <section class="screen" id="screen-profile">
+        <div class="screen-body form-stack">
+          <div class="screen-head">
+            <span class="eyebrow">3'lü Kombo Katmanı</span>
+            <h2>Seni Nasıl Tanıyalım?</h2>
+            <p class="muted">İsim tınısı ve doğum elementin el anatomisiyle çapraz sentezlenir.</p>
+          </div>
+
+          <div class="field-group">
+            <label for="inputName">Ad ve Soyad</label>
+            <input type="text" id="inputName" class="input" placeholder="Örn. Deniz Yılmaz" autocomplete="off" maxlength="60" />
+          </div>
+
+          <div class="field-group">
+            <label for="inputBirthDate">Doğum Tarihi</label>
+            <input type="date" id="inputBirthDate" class="input" max="2008-12-31" min="1920-01-01" />
+          </div>
+
+          <div class="field-row">
+            <div class="field-group">
+              <div class="label-row">
+                <label for="inputBirthTime">Doğum Saati</label>
+                <button type="button" class="mini-toggle" id="btnUnknownTime">Bilmiyorum</button>
+              </div>
+              <input type="time" id="inputBirthTime" class="input" />
+            </div>
+
+            <div class="field-group">
+              <label for="inputBirthCity">Doğum Şehri <span class="opt-tag">(Opsiyonel)</span></label>
+              <input type="text" id="inputBirthCity" class="input" placeholder="Örn. Kayseri" autocomplete="off" maxlength="40" />
+            </div>
+          </div>
+
+          <div class="live-preview-card" id="profilePreview" hidden>
+            <div class="preview-dot"></div>
+            <div class="preview-text" id="profilePreviewText"></div>
+          </div>
+        </div>
+
+        <div class="screen-footer">
+          <button class="btn btn-primary" id="btnProfileContinue">Devam Et</button>
+          <button class="btn btn-text" id="btnProfileSkip">Şimdilik Atla (Temel Mod)</button>
+        </div>
+      </section>
+
+      <!-- EKRAN 4: BASKIN EL SEÇİMİ -->
+      <section class="screen" id="screen-handedness">
+        <div class="screen-body center-stack">
+          <div class="screen-head center">
+            <span class="eyebrow">Aktif &amp; Pasif El Kuralı</span>
+            <h2>Yazı yazarken hangi elini kullanıyorsun?</h2>
+            <p class="muted">Pasif elin doğuştan potansiyelini, aktif elin ise kendi kararlarınla şekillendirdiğin bugünkü seni gösterir.</p>
+          </div>
+
+          <div class="choice-grid two-col">
+            <button type="button" class="choice-card hand-choice" data-hand="left">
+              <div class="hand-icon mirrored" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 52 C18 44, 18 33, 20 22 C21 19, 25 19, 25 23 L25 32 L28 15 C29 12, 33 12, 33 16 L33 30 L37 13 C38 10, 42 10, 42 14 L41 31 L46 18 C47 15, 51 16, 50 20 L47 35 C51 32, 55 31, 56 34 C57 36, 52 44, 47 50 C43 55, 38 57, 32 57 C27 57, 24 55, 22 52 Z"/>
+                </svg>
+              </div>
+              <strong>Sol El</strong>
+              <span>Solak · Sağ pasif, sol aktif</span>
+            </button>
+
+            <button type="button" class="choice-card hand-choice" data-hand="right">
+              <div class="hand-icon" aria-hidden="true">
+                <svg viewBox="0 0 64 64" width="52" height="52" fill="none" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round">
+                  <path d="M22 52 C18 44, 18 33, 20 22 C21 19, 25 19, 25 23 L25 32 L28 15 C29 12, 33 12, 33 16 L33 30 L37 13 C38 10, 42 10, 42 14 L41 31 L46 18 C47 15, 51 16, 50 20 L47 35 C51 32, 55 31, 56 34 C57 36, 52 44, 47 50 C43 55, 38 57, 32 57 C27 57, 24 55, 22 52 Z"/>
+                </svg>
+              </div>
+              <strong>Sağ El</strong>
+              <span>Sağlak · Sol pasif, sağ aktif</span>
+            </button>
+          </div>
+        </div>
+      </section>
+
+      <!-- EKRAN 5 & 6: YAKIN AVUÇ ÇEKİMİ -->
+      <section class="screen screen-compact" id="screen-camera">
+        <div class="cam-header">
+          <div>
+            <span class="eyebrow" id="camStepBadge">1 / 2 · Pasif El</span>
+            <h2 class="compact-title" id="camTitle">Sol Avuç İçini Çek</h2>
+          </div>
+          <span class="quality-badge" id="camQualityBadge">Işık: Hazır</span>
+        </div>
+
+        <p class="cam-tip">Telefonu <strong>15–20 cm</strong> yaklaştır; sadece avuç için 4 köşeyi doldursun, parmak uçları taşabilir.</p>
+
+        <div class="viewport-box" id="camViewport">
+          <video id="camVideo" autoplay playsinline muted></video>
+          <canvas id="camPreviewCanvas" hidden></canvas>
+
+          <div class="corner-frame" aria-hidden="true">
+            <span class="corner tl"></span>
+            <span class="corner tr"></span>
+            <span class="corner bl"></span>
+            <span class="corner br"></span>
+          </div>
+
+          <div class="cam-fallback" id="camFallback">
+            <svg viewBox="0 0 24 24" width="32" height="32" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
+              <circle cx="12" cy="13" r="4"/>
+            </svg>
+            <p id="camFallbackMsg">Kamerayı başlat veya galeriden avuç içi fotoğrafı seç.</p>
+            <div class="fallback-actions">
+              <button type="button" class="pill-btn gold" id="btnEnableCam">Kamerayı Aç</button>
+              <button type="button" class="pill-btn" id="btnUseDemoHand">Örnek El Kullan</button>
+            </div>
+          </div>
+
+          <div class="countdown-overlay" id="camCountdown" hidden>3</div>
+        </div>
+
+        <div class="cam-tools" id="camToolsLive">
+          <button type="button" class="tool-chip" id="btnFlipCam" title="Ön/Arka Kamera">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <path d="M21 12a9 9 0 0 0-9-9 9.75 9.75 0 0 0-6.74 2.74L3 8"/><path d="M3 3v5h5"/>
+              <path d="M3 12a9 9 0 0 0 9 9 9.75 9.75 0 0 0 6.74-2.74L21 16"/><path d="M16 16h5v5"/>
+            </svg>
+            <span id="lblCamFacing">Arka</span>
+          </button>
+
+          <button type="button" class="tool-chip" id="btnTorch" title="Fener">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <polygon points="13 2 3 14 12 14 11 22 21 10 12 10 13 2"/>
+            </svg>
+            <span>Fener</span>
+          </button>
+
+          <button type="button" class="tool-chip active" id="btnTimerToggle" title="3 Saniye Otomatik Çekim">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <circle cx="12" cy="13" r="8"/><path d="M12 9v4l2 2"/><path d="M9 2h6"/>
+            </svg>
+            <span>3 sn</span>
+          </button>
+
+          <label class="tool-chip" for="inputGalleryFile" title="Galeriden Seç">
+            <svg viewBox="0 0 24 24" width="16" height="16" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round">
+              <rect x="3" y="3" width="18" height="18" rx="2"/><circle cx="8.5" cy="8.5" r="1.5"/><path d="M21 15l-5-5L5 21"/>
+            </svg>
+            <span>Galeri</span>
+          </label>
+          <input type="file" id="inputGalleryFile" accept="image/*" hidden />
+        </div>
+
+        <div class="screen-footer compact-footer">
+          <div class="shutter-row" id="camShutterRow">
+            <button type="button" class="btn btn-primary" id="btnCapture">Fotoğrafı Çek</button>
+          </div>
+          <div class="row-footer" id="camConfirmRow" hidden>
+            <button type="button" class="btn btn-ghost" id="btnRetake">Tekrar Çek</button>
+            <button type="button" class="btn btn-primary" id="btnAcceptPhoto">Bu Fotoğrafı Kullan</button>
+          </div>
+        </div>
+      </section>
+
+      <!-- EKRAN 7: ÇİZGİ NETLEŞTİRME -->
+      <section class="screen screen-compact" id="screen-enhance">
+        <div class="cam-header">
+          <div>
+            <span class="eyebrow">Dijital Büyüteç · Çizgi Vurgulama</span>
+            <h2 class="compact-title">Çizgileri Netleştir</h2>
+          </div>
+          <div class="mini-seg" id="enhanceHandSeg">
+            <button type="button" class="seg-btn active" data-target="active">Aktif</button>
+            <button type="button" class="seg-btn" data-target="passive">Pasif</button>
+          </div>
+        </div>
+
+        <div class="viewport-box enhance-box">
+          <canvas id="enhanceCanvas"></canvas>
+        </div>
+
+        <div class="filter-controls">
+          <div class="mode-pills" id="filterModePills">
+            <button type="button" class="mode-pill" data-mode="natural">Doğal</button>
+            <button type="button" class="mode-pill" data-mode="xray">Röntgen</button>
+            <button type="button" class="mode-pill active" data-mode="deep">Derin Çizgi</button>
+          </div>
+
+          <div class="slider-row">
+            <label for="sliderSharpness">Çizgi Netliği</label>
+            <input type="range" id="sliderSharpness" min="0" max="100" value="62" />
+            <span class="slider-val" id="lblSharpness">62</span>
+          </div>
+        </div>
+
+        <div class="screen-footer compact-footer">
+          <button type="button" class="btn btn-primary" id="btnEnhanceContinue">Çizgi Kavislerine Geç</button>
+        </div>
+      </section>
+
+      <!-- EKRAN 8-10: SIRALI KAVİS & ÇATAL EDİTÖRÜ -->
+      <section class="screen screen-compact" id="screen-curve">
+        <div class="cam-header">
+          <div>
+            <span class="eyebrow" id="curveStepBadge">Çizgi 1 / 3</span>
+            <h2 class="compact-title" id="curveTitle">Kalp Çizgisini Belirle</h2>
+          </div>
+          <button type="button" class="mini-toggle" id="btnCurveAutoSkip">Otomatik Bırak</button>
+        </div>
+
+        <p class="cam-tip" id="curveHint">Noktaları parmağınla sürükle. Çizgin çok kıvrımlıysa kıvrım, ucu ikiye ayrılıyorsa çatal ekle.</p>
+
+        <div class="viewport-box editor-box" id="curveStageBox">
+          <canvas id="curveCanvas"></canvas>
+          <div class="mini-ref-card" id="curveMiniRef" aria-hidden="true"></div>
+          <canvas id="loupeCanvas" class="loupe-canvas" width="136" height="136" hidden></canvas>
+        </div>
+
+        <div class="curve-toolbar">
+          <button type="button" class="pill-btn" id="btnAddBend">
+            <span>+ Kıvrım Ekle</span>
+            <small id="lblBendCount">3/6</small>
+          </button>
+          <button type="button" class="pill-btn" id="btnToggleFork">
+            <span id="lblForkBtn">⑂ Çatal Ekle</span>
+          </button>
+          <button type="button" class="pill-btn" id="btnResetCurve">↺ Sıfırla</button>
+        </div>
+
+        <div class="screen-footer compact-footer">
+          <button type="button" class="btn btn-primary" id="btnCurveNext">Kalp Çizgisini Onayla</button>
+        </div>
+      </section>
+
+      <!-- EKRAN 11 (FAZ 3): "BURAYA BAK" EL ÜSTÜ İKİNCİL ÇİZGİ REHBERİ -->
+      <section class="screen screen-compact" id="screen-guide">
+        <div class="cam-header">
+          <div>
+            <span class="eyebrow" id="guideCounter">Buraya Bak · 1 / 6</span>
+            <h2 class="compact-title" id="guideTitle">Kader (Satürn) Çizgisi</h2>
+          </div>
+          <button type="button" class="mini-toggle" id="btnGuideFilterToggle">Röntgen: Açık</button>
+        </div>
+
+        <!-- Üstte Kullanıcının Kendi Eli + Parlayan Hedef Bölge -->
+        <div class="viewport-box guide-box">
+          <canvas id="guideCanvas"></canvas>
+          <div class="guide-spot-tag" id="guideSpotTag">Işıklı alana bak</div>
+        </div>
+
+        <!-- Ortada Mini Örnek Çizim + 1 Cümlelik Net Tarif -->
+        <div class="guide-explain-card">
+          <div class="guide-sample-svg" id="guideSampleSvg" aria-hidden="true"></div>
+          <div class="guide-explain-copy">
+            <span class="sample-label">Buna benzer görünür</span>
+            <p id="guideDesc"></p>
+          </div>
+        </div>
+
+        <!-- Altta Sadece 3 Net Düğme -->
+        <div class="guide-actions">
+          <button type="button" class="guide-btn yes" data-answer="yes">
+            <span>✓</span> Evet, Var
+          </button>
+          <button type="button" class="guide-btn no" data-answer="no">
+            <span>✕</span> Hayır
+          </button>
+          <button type="button" class="guide-btn unsure" data-answer="unsure">
+            Emin Değilim
+          </button>
+        </div>
+      </section>
+
+      <!-- EKRAN 12 (FAZ 3): ANATOMİK SVG ÇİZİMLİ GÖRSEL MİKRO-SORULAR (1 Ekran = 1 Soru) -->
+      <section class="screen screen-compact" id="screen-micro">
+        <div class="micro-head">
+          <span class="eyebrow" id="microStepBadge">Soru 1 / 5 · El Kıvamı</span>
+          <h2 class="compact-title" id="microTitle">Avucunun Kıvamı Nasıl?</h2>
+        </div>
+
+        <div class="howto-pill" id="microTipBox">
+          <span class="howto-tag">Nasıl anlarsın?</span>
+          <p id="microTipText"></p>
+        </div>
+
+        <div class="micro-options" id="microOptionsMount"></div>
+
+        <div class="screen-footer compact-footer" id="microFooter" hidden>
+          <button type="button" class="btn btn-text" id="btnMicroSkip">Bu Adımı Atla</button>
+        </div>
+      </section>
+
+      <!-- EKRAN 13 (FAZ 4): 7 PERDELİ AŞAMALI SİNEMATİK KEŞİF -->
+      <section class="screen screen-compact" id="screen-cinema">
+        <div class="cinema-top">
+          <div class="cinema-bars" id="cinemaBars"></div>
+          <div class="cinema-controls-bar">
+            <button type="button" class="mini-toggle active" id="btnCinemaXray">Röntgen</button>
+            <button type="button" class="mini-toggle" id="btnCinemaTTS">🔇 Sesli Anlatım</button>
+          </div>
+        </div>
+
+        <div class="cinema-visual-box" id="cinemaVisualBox">
+          <canvas id="cinemaCanvas"></canvas>
+          <div class="line-tabs" id="cinemaLineTabs" hidden>
+            <button type="button" class="line-tab active" data-line="heart">Kalp</button>
+            <button type="button" class="line-tab" data-line="head">Akıl</button>
+            <button type="button" class="line-tab" data-line="life">Yaşam</button>
+          </div>
+        </div>
+
+        <div class="two-hands-box" id="cinemaTwoHandsBox" hidden>
+          <div class="hand-compare-card">
+            <img id="imgComparePassive" alt="Pasif El" />
+            <span id="lblComparePassive">Pasif El</span>
+          </div>
+          <div class="hand-compare-card active-side">
+            <img id="imgCompareActive" alt="Aktif El" />
+            <span id="lblCompareActive">Aktif El</span>
+          </div>
+        </div>
+
+        <div class="cinema-copy-panel" id="cinemaCopyPanel">
+          <span class="eyebrow" id="cinemaEyebrow">Perde 1 / 7</span>
+          <h3 id="cinemaHeadline"></h3>
+          <p class="cinema-lead" id="cinemaLead"></p>
+          <p class="cinema-sub" id="cinemaSub"></p>
+
+          <details class="evidence-drawer" id="cinemaEvidenceBox">
+            <summary>Neden böyle dedi? (Kanıt &amp; Kaynak)</summary>
+            <div class="evidence-body">
+              <div id="cinemaEvidenceText"></div>
+              <div class="evidence-source" id="cinemaSourceText"></div>
+            </div>
+          </details>
+        </div>
+
+        <div class="compass-box" id="cinemaCompassBox" hidden></div>
+
+        <div class="card-box" id="cinemaCardBox" hidden>
+          <div class="identity-preview-wrap">
+            <canvas id="identityCardCanvas"></canvas>
+          </div>
+          <div class="card-actions">
+            <button type="button" class="btn btn-primary" id="btnDownloadCard">9:16 Kartı İndir</button>
+            <button type="button" class="btn btn-ghost" id="btnSaveArchive">Arşive Kaydet</button>
+          </div>
+        </div>
+
+        <div class="cinema-nav">
+          <button type="button" class="btn btn-ghost" id="btnCinemaPrev">← Geri</button>
+          <button type="button" class="btn btn-primary" id="btnCinemaNext">Sonraki Perde →</button>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- ÜST SAĞ ✦ MENÜ ÇEKMECESİ -->
+  <div class="modal-backdrop" id="menuModal" hidden>
+    <div class="modal-sheet" role="dialog" aria-modal="true" aria-labelledby="menuTitle">
+      <div class="modal-header">
+        <h3 id="menuTitle">✦ KİRO Menü</h3>
+        <button class="icon-btn" data-close="menuModal" aria-label="Kapat">✕</button>
+      </div>
+      <div class="menu-list">
+        <button class="menu-item" id="btnOpenArchive">
+          <div>
+            <strong>6 Aylık El Gelişim Arşivi</strong>
+            <span>Cihazında kayıtlı önceki analizlerini gör</span>
+          </div>
+          <span class="chev">›</span>
+        </button>
+
+        <button class="menu-item gold-item" id="btnOpenDedication">
+          <div>
+            <strong>✦ Kurucu İthafı</strong>
+            <span>Özel doğum günü mektubu &amp; düzenleme</span>
+          </div>
+          <span class="chev">›</span>
+        </button>
+
+        <button class="menu-item danger-item" id="btnClearData">
+          <div>
+            <strong>Tüm Verilerimi Temizle</strong>
+            <span>Cihazdaki tüm profil, rıza ve arşiv kayıtlarını sil</span>
+          </div>
+          <span class="chev">›</span>
+        </button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TAM HUKUKİ AYDINLATMA METNİ MODALI -->
+  <div class="modal-backdrop" id="legalTextModal" hidden>
+    <div class="modal-sheet tall" role="dialog" aria-modal="true" aria-labelledby="legalModalTitle">
+      <div class="modal-header">
+        <h3 id="legalModalTitle">Aydınlatma ve Kullanım Koşulları</h3>
+        <button class="icon-btn" data-close="legalTextModal" aria-label="Kapat">✕</button>
+      </div>
+      <div class="modal-scroll" id="legalFullTextMount"></div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" data-close="legalTextModal">Okudum, Kapat</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 6 AYLIK ARŞİV MODALI -->
+  <div class="modal-backdrop" id="archiveModal" hidden>
+    <div class="modal-sheet tall" role="dialog" aria-modal="true" aria-labelledby="archiveTitle">
+      <div class="modal-header">
+        <h3 id="archiveTitle">6 Aylık El Gelişim Arşivi</h3>
+        <button class="icon-btn" data-close="archiveModal" aria-label="Kapat">✕</button>
+      </div>
+      <div class="modal-scroll" id="archiveList"></div>
+    </div>
+  </div>
+
+  <!-- KURUCU İTHAFI MODALI -->
+  <div class="modal-backdrop" id="dedicationModal" hidden>
+    <div class="modal-sheet tall dedication-sheet" role="dialog" aria-modal="true" aria-labelledby="dedicationTitle">
+      <div class="modal-header">
+        <h3 id="dedicationTitle">✦ Kurucu İthafı</h3>
+        <button class="icon-btn" data-close="dedicationModal" aria-label="Kapat">✕</button>
+      </div>
+
+      <div class="modal-scroll" id="dedicationView">
+        <div class="dedication-crest">✦</div>
+        <h4 class="dedication-heading" id="dedicationHeadingView"></h4>
+        <p class="dedication-body" id="dedicationBodyView"></p>
+        <p class="dedication-sign" id="dedicationSignView"></p>
+      </div>
+
+      <div class="modal-scroll" id="dedicationEdit" hidden>
+        <div class="field-group">
+          <label for="editDedHeading">Başlık / Hitap</label>
+          <input type="text" id="editDedHeading" class="input" maxlength="80" />
+        </div>
+        <div class="field-group">
+          <label for="editDedBody">Doğum Günü Mektubun</label>
+          <textarea id="editDedBody" class="input textarea" rows="6" maxlength="1000"></textarea>
+        </div>
+        <div class="field-group">
+          <label for="editDedSign">İmza</label>
+          <input type="text" id="editDedSign" class="input" maxlength="80" />
+        </div>
+      </div>
+
+      <div class="modal-footer row-footer">
+        <button class="btn btn-ghost" id="btnToggleEditDed">Mektubu Özelleştir</button>
+        <button class="btn btn-primary" id="btnSaveDed" hidden>Kaydet</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- TOAST BİLDİRİMİ -->
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <script src="js/state.js"></script>
+  <script src="js/legal-consent.js"></script>
+  <script src="js/camera-filter.js"></script>
+  <script src="js/curve-editor.js"></script>
+  <script src="js/guide-overlay.js"></script>
+  <script src="js/micro-tests.js"></script>
+  <script src="js/rules-fallback.js"></script>
+  <script src="js/custom-addons.js"></script>
+  <script src="js/analysis-engine.js"></script>
+  <script src="js/cinema-results.js"></script>
+  <script src="js/app.js"></script>
+</body>
+</html>

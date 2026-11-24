@@ -1,0 +1,10 @@
+{
+  "name": "KİRO — Bilimsel El Analizi",
+  "short_name": "KİRO",
+  "description": "100% cihaz içi çalışan, kanıta dayalı modern el analizi uygulaması.",
+  "start_url": "./index.html",
+  "display": "standalone",
+  "orientation": "portrait",
+  "background_color": "#0B0D12",
+  "theme_color": "#0B0D12"
+}
